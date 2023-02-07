@@ -8,8 +8,8 @@ import styles from "./styles.module.scss";
 import UserMenu from "./UserMenu";
 
 const Top = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(true);
-  const [visible, setVisible] = useState<boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <div className={styles.top}>
