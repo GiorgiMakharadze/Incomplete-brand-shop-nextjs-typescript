@@ -9,14 +9,14 @@ const Copyright = ({ country }: LocationProps) => {
       <section>2022 SHOPPAY All Rights Reserved.</section>
       <section>
         <ul>
-          {data.map((link) => (
-            <li>
+          {data.map((link, i) => (
+            <li key={i}>
               <Link href={link.link}>{link.name}</Link>
             </li>
           ))}
           <li>
             <a>
-              <IoLocationSharp /> {country.name}
+              <IoLocationSharp /> {country?.name}
             </a>
           </li>
         </ul>

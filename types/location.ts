@@ -1,5 +1,5 @@
 export default interface LocationProps {
-  country: {
+  country?: {
     name: string;
     flag: string;
   };
