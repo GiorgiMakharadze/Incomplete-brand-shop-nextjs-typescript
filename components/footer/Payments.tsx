@@ -6,8 +6,11 @@ const Payments = () => {
       <h3>WE ACCEPT</h3>
       <div className={styles.footer__flexwrap}>
         <img src="../../../images/payment/visa.webp" alt="visa card" />
-        <img src="/mastercard.webp" alt="mastercard card" />
-        <img src="/paypal.webp" alt="paypal" />
+        <img
+          src="../../../images/payment/mastercard.webp"
+          alt="mastercard card"
+        />
+        <img src="../../../images/payment/paypal.webp" alt="paypal" />
       </div>
     </div>
   );

@@ -3,9 +3,10 @@ import Links from "./links";
 import NewsLetter from "./NewsLetter";
 import Payments from "./Payments";
 import Socails from "./Socails";
+import LocationProps from "@/types/location";
 import styles from "./styles.module.scss";
 
-const Footer = () => {
+const Footer = ({ country }: LocationProps) => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footer__container}>
@@ -13,7 +14,7 @@ const Footer = () => {
         <Socails />
         <NewsLetter />
         <Payments />
-        <Copyright />
+        <Copyright country={country} />
       </div>
     </footer>
   );

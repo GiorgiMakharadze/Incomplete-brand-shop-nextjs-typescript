@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserMenuProps } from "@/types/headerTypes/header";
+import { UserMenuProps } from "@/types/header";
 import styles from "./styles.module.scss";
 
 const UserMenu = ({ loggedIn }: UserMenuProps) => {

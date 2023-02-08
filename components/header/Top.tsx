@@ -1,13 +1,14 @@
+import { useState } from "react";
+import Link from "next/link";
 import { MdSecurity } from "react-icons/md";
 import { BsSuitHeart } from "react-icons/bs";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { RiArrowDropDownFill } from "react-icons/ri";
-import React, { useState } from "react";
-import Link from "next/link";
-import styles from "./styles.module.scss";
 import UserMenu from "./UserMenu";
+import LocationProps from "@/types/location";
+import styles from "./styles.module.scss";
 
-const Top = () => {
+const Top = ({ country }: LocationProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
 
@@ -17,11 +18,8 @@ const Top = () => {
         <div></div>
         <ul className={styles.top__list}>
           <li className={styles.li}>
-            <img
-              src="https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png"
-              alt=""
-            />
-            <span>Georgia / usd</span>
+            <img src={country.flag} alt="" />
+            <span>{country.name} / usd</span>
           </li>
           <li className={styles.li}>
             <MdSecurity />

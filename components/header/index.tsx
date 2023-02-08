@@ -1,13 +1,14 @@
 import Ad from "./Ad";
 import Top from "./Top";
-import styles from "./styles.module.scss";
 import Main from "./Main";
+import LocationProps from "@/types/location";
+import styles from "./styles.module.scss";
 
-const Header = () => {
+const Header = ({ country }: LocationProps) => {
   return (
     <header className={styles.header}>
       <Ad />
-      <Top />
+      <Top country={country} />
       <Main />
     </header>
   );

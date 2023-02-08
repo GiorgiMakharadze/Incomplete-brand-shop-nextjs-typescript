@@ -1,8 +1,9 @@
 import Link from "next/dist/client/link";
 import { IoLocationSharp } from "react-icons/io5";
+import LocationProps from "@/types/location";
 import styles from "./styles.module.scss";
 
-const Copyright = () => {
+const Copyright = ({ country }: LocationProps) => {
   return (
     <div className={styles.footer__copyright}>
       <section>2022 SHOPPAY All Rights Reserved.</section>
@@ -15,7 +16,7 @@ const Copyright = () => {
           ))}
           <li>
             <a>
-              <IoLocationSharp /> Gerogia
+              <IoLocationSharp /> {country.name}
             </a>
           </li>
         </ul>
