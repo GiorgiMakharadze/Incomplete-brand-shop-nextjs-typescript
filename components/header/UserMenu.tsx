@@ -9,10 +9,10 @@ const UserMenu = ({ session }: UserMenuProps) => {
       <h4>Welcome to G Shop!</h4>
       {session ? (
         <div className={styles.flex}>
-          <img src={session.user.image} alt="" className={styles.menu__img} />
+          <img src={session.user?.image} alt="" className={styles.menu__img} />
           <div className={styles.col}>
             <span>Welcome Back</span>
-            <h3>{session.user.name}</h3>
+            <h3>{session.user?.name}</h3>
             <span onClick={() => signOut()}>Sign out</span>
           </div>
         </div>
