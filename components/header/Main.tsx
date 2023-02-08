@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import { useSelector } from "react-redux";
 
 const Main = () => {
-  const { cart } = useSelector((state) => state.cart);
+  //const { cart } = useSelector((state) => state.cart);
   return (
     <div className={styles.main}>
       <div className={styles.main__container}>
