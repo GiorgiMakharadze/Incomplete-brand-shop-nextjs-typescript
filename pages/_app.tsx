@@ -16,7 +16,7 @@ export default function App({
   return (
     <>
       <Head>
-        <title>G shop</title>
+        <title>Shoppay</title>
         <meta name="description" content="G shop online shopping service" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
