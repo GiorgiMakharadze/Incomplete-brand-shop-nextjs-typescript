@@ -24,7 +24,9 @@
     "**/*.ts",
     "**/*.tsx",
     "types/logininput.js",
-    "components/inputs/loginInput/index.js"
+    "components/inputs/loginInput/index.js",
+    "pages/api/auth/signup.js",
+    "models/User.ts"
   ],
   "exclude": ["node_modules"]
 }
