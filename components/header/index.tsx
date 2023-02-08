@@ -3,6 +3,7 @@ import Top from "./Top";
 import Main from "./Main";
 import LocationProps from "@/types/location";
 import styles from "./styles.module.scss";
+import session from "redux-persist/lib/storage/session";
 
 const Header = ({ country }: LocationProps) => {
   return (

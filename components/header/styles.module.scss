@@ -2,8 +2,7 @@
   height: 100%;
   box-shadow: $shadow-1;
 }
-
-//AD
+//AD---------------------------------------------------
 .ad {
   height: 54px;
   width: 100%;
@@ -13,12 +12,11 @@
   background-position: 50% 50%;
 }
 
-//TOP
+//TOP---------------------------------------------------
 .top {
   background: #f8f8f8;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-
   &__container {
     max-width: 95%;
     margin: 0 auto;
@@ -30,12 +28,6 @@
   &__list {
     display: flex;
     gap: 15px;
-    img {
-      width: 28px;
-      height: 28px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
     .li {
       position: relative;
       display: flex;
@@ -53,7 +45,12 @@
           margin-right: 3px;
         }
       }
-
+      img {
+        width: 28px;
+        height: 28px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
       svg {
         width: 20px;
         height: 20px;
@@ -95,7 +92,6 @@
     }
   }
 }
-
 .menu {
   width: 280px;
   min-height: 200px;
@@ -146,7 +142,6 @@
     }
   }
 }
-
 .main {
   position: relative;
   height: 70px;

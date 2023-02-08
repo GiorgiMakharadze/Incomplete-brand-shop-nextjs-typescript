@@ -1,3 +1,10 @@
 export interface UserMenuProps {
-  loggedIn: boolean;
+  session:
+    | {
+        user: {
+          name: string;
+          image: string;
+        };
+      }
+    | undefined;
 }

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { MdSecurity } from "react-icons/md";
 import { BsSuitHeart } from "react-icons/bs";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import UserMenu from "./UserMenu";
 import LocationProps from "@/types/location";
+import SessionProps from "@/types/session";
 import styles from "./styles.module.scss";
 
 const Top = ({ country }: LocationProps) => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const { data: session } = useSession();
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
@@ -18,22 +20,22 @@ const Top = ({ country }: LocationProps) => {
         <div></div>
         <ul className={styles.top__list}>
           <li className={styles.li}>
-            <img src={country.flag} alt="" />
-            <span>{country.name} / usd</span>
+            <img src={country?.flag} alt="" />
+            <span>{country?.name} / USD</span>
           </li>
           <li className={styles.li}>
             <MdSecurity />
-            <span>Buyer proteciton</span>
+            <span>Buyer Protection</span>
           </li>
           <li className={styles.li}>
-            <span>Costumer Service</span>
+            <span>Customer Service</span>
           </li>
           <li className={styles.li}>
             <span>Help</span>
           </li>
           <li className={styles.li}>
             <BsSuitHeart />
-            <Link href="/profile/Whishlist">
+            <Link href="/profile/whishlist">
               <span>Whishlist</span>
             </Link>
           </li>
@@ -42,14 +44,14 @@ const Top = ({ country }: LocationProps) => {
             onMouseOver={() => setVisible(true)}
             onMouseLeave={() => setVisible(false)}
           >
-            {loggedIn ? (
+            {session ? (
               <li className={styles.li}>
                 <div className={styles.flex}>
                   <img
-                    src="https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png"
+                    src={session?.user?.image || "/defaultprofilepicture.png"}
                     alt=""
                   />
-                  <span>Giorgi</span>
+                  <span>{session?.user?.name}</span>
                   <RiArrowDropDownFill />
                 </div>
               </li>
@@ -60,9 +62,9 @@ const Top = ({ country }: LocationProps) => {
                   <span>Account</span>
                   <RiArrowDropDownFill />
                 </div>
-                {visible && <UserMenu loggedIn={loggedIn} />}
               </li>
             )}
+            {visible && <UserMenu session={session} />}
           </li>
         </ul>
       </div>
