@@ -7,6 +7,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import LoginInput from "@/components/inputs/loginInput";
 import { useState } from "react";
+import CircledIconBtn from "@/components/buttons/circledIconBtn";
 
 const initialvalues = {
   login_email: "",
@@ -74,6 +75,10 @@ const Signin = () => {
                     placeholder="Password"
                     onChange={handleChange}
                   />
+                  <CircledIconBtn type="submit" text="Sign In" icon="" />
+                  <div className={styles.forgot}>
+                    <Link href="/forget">Forget password</Link>
+                  </div>
                 </Form>
               )}
             </Formik>

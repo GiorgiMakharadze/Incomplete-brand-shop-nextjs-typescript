@@ -3,6 +3,5 @@ export default interface LoginIputProps {
   placeholder: string;
   type: string;
   name: string;
-
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
