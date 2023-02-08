@@ -48,10 +48,10 @@ const Top = ({ country }: LocationProps) => {
               <li className={styles.li}>
                 <div className={styles.flex}>
                   <img
-                    src={session?.user?.image || "/defaultprofilepicture.png"}
+                    src={session.user?.image || "/defaultprofilepicture.png"}
                     alt=""
                   />
-                  <span>{session?.user?.name}</span>
+                  <span>{session.user?.name}</span>
                   <RiArrowDropDownFill />
                 </div>
               </li>
