@@ -5,7 +5,7 @@ import LoginIputProps from "@/types/logininput";
 import { ErrorMessage, useField } from "formik";
 import styles from "./styles.module.scss";
 
-const LoginInput = ({ icon, placeholder, ...props }: LoginIputProps) => {
+const LoginInput = ({ type, icon, placeholder, ...props }: LoginIputProps) => {
   const [field, meta] = useField(props);
 
   return (
@@ -24,11 +24,11 @@ const LoginInput = ({ icon, placeholder, ...props }: LoginIputProps) => {
         ""
       )}
       <input
-        type={field.type}
+        type={type} //field.type shows error-why?
         name={field.name}
         placeholder={placeholder}
-        {...field}
         {...props}
+        {...field}
       />
       {meta.touched && meta.error && (
         <div className={styles.error__popup}>
