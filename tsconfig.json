@@ -26,7 +26,8 @@
     "types/logininput.js",
     "components/inputs/loginInput/index.js",
     "pages/api/auth/signup.js",
-    "models/User.ts"
+    "models/User.ts",
+    "types/tokens.jwtts"
   ],
   "exclude": ["node_modules"]
 }
