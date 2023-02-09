@@ -5,6 +5,7 @@ import LocationProps from "@/types/location";
 import { useSession } from "next-auth/react";
 import styles from "../styles/Home.module.scss";
 import Main from "../components/home/main";
+import FlashDeals from "@/components/home/main/flashDealds";
 
 export default function Home({ country }: LocationProps) {
   const { data: session } = useSession();
@@ -15,6 +16,7 @@ export default function Home({ country }: LocationProps) {
       <div className={styles.home}>
         <div className={styles.container}>
           <Main />
+          <FlashDeals />
         </div>
       </div>
       <Footer country={country} />
