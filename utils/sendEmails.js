@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
-import { OAuth2Client } from "google-auth-library";
+import { activateEmailTemplate } from "@/email/activateEmailTemplate";
 
 const { OAuth2 } = google.auth;
 
@@ -13,7 +13,7 @@ const {
   SENDER_EMAIL_ADDRESS,
 } = process.env;
 
-const outh2Client = new OAuth2(
+const oauth2Client = new OAuth2(
   MAILING_SERVICE_CLIENT_ID,
   MAILING_SERVICE_CLIENT_SECRET,
   MAILING_SERVICE_REFRESH_TOKEN,
@@ -22,11 +22,11 @@ const outh2Client = new OAuth2(
 
 //send email
 
-export const sendEmail = (to, url, subject) => {
-  OAuth2Client.setCredentials({
-    refresher_token: MAILING_SERVICE_REFRESH_TOKEN,
+export const sendEmail = (to, url, txt, subject, template) => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
-  const accessToken = OAuth2Client.getAcessToken();
+  const accessToken = oauth2Client.getAccessToken();
   const smtpTransport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -38,13 +38,13 @@ export const sendEmail = (to, url, subject) => {
       accessToken,
     },
   });
-  const emailOptons = {
+  const mailOptions = {
     from: SENDER_EMAIL_ADDRESS,
     to: to,
-    sumbject: subject,
-    html: "",
+    subject: subject,
+    html: template(to, url),
   };
-  smtpTransport.sendMail(emailOptons, (err, infos) => {
+  smtpTransport.sendMail(mailOptions, (err, infos) => {
     if (err) return err;
     return infos;
   });

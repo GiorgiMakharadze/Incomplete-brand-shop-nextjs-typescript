@@ -29,7 +29,8 @@
     "models/User.ts",
     "types/tokens.jwtts",
     "utils/sendEmails.ts",
-    "pages/signin.js"
+    "pages/signin.js",
+    "pages/api/auth/signup.js"
   ],
   "exclude": ["node_modules"]
 }

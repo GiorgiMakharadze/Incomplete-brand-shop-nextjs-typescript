@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NextPageContext } from "next";
+import Router from "next/router";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -11,6 +12,8 @@ import { useState } from "react";
 import CircledIconBtn from "@/components/buttons/circledIconBtn";
 import { getProviders, signIn } from "next-auth/react";
 import IProviders from "@/types/provider";
+import axios from "axios";
+import Dotloader from "@/components/loaders/dotloader";
 
 const initialvalues = {
   login_email: "",
@@ -19,14 +22,24 @@ const initialvalues = {
   email: "",
   password: "",
   conf_password: "",
+  success: "",
+  error: "",
 };
 
 const Signin: React.FC<IProviders> = ({ providers }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState(initialvalues);
-  const { login_email, login_password, name, email, password, conf_password } =
-    user;
+  const {
+    login_email,
+    login_password,
+    name,
+    email,
+    password,
+    conf_password,
+    success,
+    error,
+  } = user;
 
-  console.log(providers);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -63,8 +76,28 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
       .oneOf([Yup.ref("password")], "Passwords must match."),
   });
 
+  const signUpHandler = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+      setUser({ ...user, error: "", success: data.message });
+      setLoading(false);
+      setTimeout(() => {
+        Router.push("/");
+      }, 2000);
+    } catch (error: any | unknown) {
+      setLoading(false);
+      setUser({ ...user, success: "", error: error.message });
+    }
+  };
+
   return (
     <>
+      {loading && <Dotloader loading={loading} />}
       <Header />
       <div className={styles.login}>
         <div className={styles.login__container}>
@@ -147,10 +180,7 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                 conf_password,
               }}
               validationSchema={registerValidation}
-              onSubmit={(values, actions) => {
-                // handle the form submit event and log in the user
-                console.log(values);
-              }}
+              onSubmit={() => signUpHandler()}
             >
               {(form) => (
                 <Form>
@@ -186,6 +216,10 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                 </Form>
               )}
             </Formik>
+            <div>{error && <span className={styles.error}>{error}</span>}</div>
+            <div>
+              {success && <span className={styles.success}>{success}</span>}
+            </div>
           </div>
         </div>
       </div>
