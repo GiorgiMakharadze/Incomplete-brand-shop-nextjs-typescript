@@ -1,3 +1,4 @@
+import axios from "axios";
 import Link from "next/link";
 import { NextPageContext } from "next";
 import Router from "next/router";
@@ -10,11 +11,14 @@ import * as Yup from "yup";
 import LoginInput from "@/components/inputs/loginInput";
 import { useState } from "react";
 import CircledIconBtn from "@/components/buttons/circledIconBtn";
-import { getProviders, signIn } from "next-auth/react";
 import IProviders from "@/types/provider";
-import axios from "axios";
 import Dotloader from "@/components/loaders/dotloader";
-
+import {
+  getCsrfToken,
+  getProviders,
+  getSession,
+  signIn,
+} from "next-auth/react";
 const initialvalues = {
   login_email: "",
   login_password: "",
@@ -24,10 +28,10 @@ const initialvalues = {
   conf_password: "",
   success: "",
   error: "",
+  login_error: "",
 };
-
-const Signin: React.FC<IProviders> = ({ providers }) => {
-  const [loading, setLoading] = useState<boolean>(false);
+export default function signin({ providers }: IProviders) {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(initialvalues);
   const {
     login_email,
@@ -38,27 +42,24 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
     conf_password,
     success,
     error,
+    login_error,
   } = user;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
-  console.log(user);
-
   const loginValidation = Yup.object({
     login_email: Yup.string()
       .required("Email address is required.")
-      .email("Please enter a valid email address"),
-    login_password: Yup.string().required("Please Enter a password"),
+      .email("Please enter a valid email address."),
+    login_password: Yup.string().required("Please enter a password"),
   });
-
   const registerValidation = Yup.object({
     name: Yup.string()
-      .required("What's you name ?")
-      .min(2, "First name must be between 2 and 16 characters")
-      .max(16, "First name must be between 2 and 16 characters")
+      .required("What's your name ?")
+      .min(2, "First name must be between 2 and 16 characters.")
+      .max(16, "First name must be between 2 and 16 characters.")
       .matches(/^[aA-zZ]/, "Numbers and special characters are not allowed."),
     email: Yup.string()
       .required(
@@ -75,7 +76,6 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
       .required("Confirm your password.")
       .oneOf([Yup.ref("password")], "Passwords must match."),
   });
-
   const signUpHandler = async () => {
     try {
       setLoading(true);
@@ -86,19 +86,45 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
       });
       setUser({ ...user, error: "", success: data.message });
       setLoading(false);
-      setTimeout(() => {
+      setTimeout(async () => {
+        let options = {
+          redirect: false,
+          email: email,
+          password: password,
+        };
+        const res = await signIn("credentials", options);
         Router.push("/");
       }, 2000);
-    } catch (error: any | unknown) {
+    } catch (error: unknown | any) {
       setLoading(false);
-      setUser({ ...user, success: "", error: error.message });
+      setUser({ ...user, success: "", error: error.response.data.message });
     }
   };
-
+  const signInHandler = async () => {
+    setLoading(true);
+    let options = {
+      redirect: false,
+      email: login_email,
+      password: login_password,
+    };
+    const res = await signIn("credentials", options);
+    setUser({ ...user, success: "", error: "" });
+    setLoading(false);
+    if (res?.error) {
+      setLoading(false);
+      setUser({ ...user, login_error: res?.error });
+    } else {
+      return Router.push("/");
+    }
+  };
+  const country = {
+    name: "Georgia",
+    flag: "https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png",
+  };
   return (
     <>
       {loading && <Dotloader loading={loading} />}
-      <Header />
+      <Header country={country} />
       <div className={styles.login}>
         <div className={styles.login__container}>
           <div className={styles.login__header}>
@@ -121,13 +147,13 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                 login_password,
               }}
               validationSchema={loginValidation}
-              onSubmit={(values, actions) => {
-                // handle the form submit event and log in the user
-                console.log(values);
+              onSubmit={() => {
+                signInHandler();
               }}
             >
               {(form) => (
-                <Form>
+                <Form method="post" action="/api/auth/signin/email">
+                  <input type="hidden" name="csrfToken" />
                   <LoginInput
                     type="text"
                     name="login_email"
@@ -142,32 +168,42 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                     placeholder="Password"
                     onChange={handleChange}
                   />
-                  <CircledIconBtn type="submit" text="Sign In" icon="" />
+                  <CircledIconBtn type="submit" text="Sign in" icon="" />
+                  {login_error && (
+                    <span className={styles.error}>{login_error}</span>
+                  )}
                   <div className={styles.forgot}>
-                    <Link href="/forget">Forget password</Link>
+                    <Link href="/auth/forgot">Forgot password ?</Link>
                   </div>
                 </Form>
               )}
             </Formik>
             <div className={styles.login__socials}>
               <span className={styles.or}>Or continue with</span>
-              {providers.map((provider) => (
-                <div key={provider.name} className={styles.login__socials_wrap}>
-                  <button
-                    className={styles.social__btn}
-                    onClick={() => signIn(provider.id)}
-                  >
-                    <img src={`../../icons/${provider.name}.png`} />
-                    Sign in with {provider.name}
-                  </button>
-                </div>
-              ))}
+              <div className={styles.login__socials_wrap}>
+                {providers.map((provider) => {
+                  if (provider.name == "Credentials") {
+                    return;
+                  }
+                  return (
+                    <div key={provider.name}>
+                      <button
+                        className={styles.social__btn}
+                        onClick={() => signIn(provider.id)}
+                      >
+                        <img src={`../../icons/${provider.name}.png`} alt="" />
+                        Sign in with {provider.name}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
         <div className={styles.login__container}>
           <div className={styles.login__form}>
-            <h1>Sign Up</h1>
+            <h1>Sign up</h1>
             <p>
               Get access to one of the best Eshopping services in the world.
             </p>
@@ -180,7 +216,9 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                 conf_password,
               }}
               validationSchema={registerValidation}
-              onSubmit={() => signUpHandler()}
+              onSubmit={() => {
+                signUpHandler();
+              }}
             >
               {(form) => (
                 <Form>
@@ -209,27 +247,24 @@ const Signin: React.FC<IProviders> = ({ providers }) => {
                     type="password"
                     name="conf_password"
                     icon="password"
-                    placeholder="Confrim password"
+                    placeholder="Re-Type Password"
                     onChange={handleChange}
                   />
-                  <CircledIconBtn type="submit" text="Sign Up" icon="" />
+                  <CircledIconBtn type="submit" text="Sign up" icon="" />
                 </Form>
               )}
             </Formik>
-            <div>{error && <span className={styles.error}>{error}</span>}</div>
             <div>
               {success && <span className={styles.success}>{success}</span>}
             </div>
+            <div>{error && <span className={styles.error}>{error}</span>}</div>
           </div>
         </div>
       </div>
       <Footer country="Georgia" />
     </>
   );
-};
-
-export default Signin;
-
+}
 export async function getServerSideProps(context: NextPageContext) {
   const providers = await getProviders();
 

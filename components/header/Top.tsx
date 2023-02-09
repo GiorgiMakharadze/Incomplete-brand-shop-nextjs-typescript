@@ -7,7 +7,6 @@ import { RiAccountPinCircleLine } from "react-icons/ri";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import UserMenu from "./UserMenu";
 import LocationProps from "@/types/location";
-import SessionProps from "@/types/session";
 import styles from "./styles.module.scss";
 
 const Top = ({ country }: LocationProps) => {

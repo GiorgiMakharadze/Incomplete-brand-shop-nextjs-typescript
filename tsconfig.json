@@ -29,8 +29,10 @@
     "models/User.ts",
     "types/tokens.jwtts",
     "utils/sendEmails.ts",
-    "pages/signin.js",
-    "pages/api/auth/signup.js"
+    "pages/signin.tsx",
+    "pages/api/auth/signup.ts",
+    "pages/api/auth/[...nextauth].ss",
+    "pages/api/auth/[...nextauth].ts"
   ],
   "exclude": ["node_modules"]
 }
