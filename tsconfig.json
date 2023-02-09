@@ -25,9 +25,11 @@
     "**/*.tsx",
     "types/logininput.js",
     "components/inputs/loginInput/index.js",
-    "pages/api/auth/signup.js",
+    "pages/api/auth/signup.jts",
     "models/User.ts",
-    "types/tokens.jwtts"
+    "types/tokens.jwtts",
+    "utils/sendEmails.ts",
+    "pages/signin.js"
   ],
   "exclude": ["node_modules"]
 }
