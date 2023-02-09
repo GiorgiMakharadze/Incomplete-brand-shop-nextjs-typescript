@@ -2,7 +2,9 @@ import axios from "axios";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import LocationProps from "@/types/location";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import styles from "../styles/Home.module.scss";
+import Main from "../components/home/main";
 
 export default function Home({ country }: LocationProps) {
   const { data: session } = useSession();
@@ -10,7 +12,11 @@ export default function Home({ country }: LocationProps) {
   return (
     <div>
       <Header country={country} />
-      {session ? "you are logged in " : "your not logged in"}
+      <div className={styles.home}>
+        <div className={styles.container}>
+          <Main />
+        </div>
+      </div>
       <Footer country={country} />
     </div>
   );
