@@ -550,6 +550,11 @@ export const homeImprovSwiper = [
   },
   {
     name: "",
+    image: "https://ae03.alicdn.com/kf/S882fd95abb7b40ac860d4a9fab1df995Y.jpg",
+    price: "",
+  },
+  {
+    name: "",
     image: "https://ae01.alicdn.com/kf/S70e0b1be525948e3ae8ca0dbb5672c06Q.jpg",
     price: "",
   },
@@ -571,6 +576,11 @@ export const homeImprovSwiper = [
   {
     name: "",
     image: "https://ae03.alicdn.com/kf/S882fd95abb7b40ac860d4a9fab1df995Y.jpg",
+    price: "",
+  },
+  {
+    name: "",
+    image: "https://ae01.alicdn.com/kf/H973c7fd8079f4820b28f7e5b8d7e4bb6s.jpg",
     price: "",
   },
 ];

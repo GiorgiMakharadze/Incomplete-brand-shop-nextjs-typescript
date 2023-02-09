@@ -7,7 +7,15 @@ import styles from "../styles/Home.module.scss";
 import Main from "../components/home/main";
 import FlashDeals from "@/components/home/main/flashDealds";
 import Category from "@/components/home/category";
-import { women_accessories, women_dresses, women_shoes } from "@/data/home";
+import {
+  gamingSwiper,
+  homeImprovSwiper,
+  women_accessories,
+  women_dresses,
+  women_shoes,
+  women_swiper,
+} from "@/data/home";
+import ProductsSwiper from "@/components/productsSwiper";
 
 export default function Home({ country }: LocationProps) {
   const { data: session } = useSession();
@@ -36,6 +44,17 @@ export default function Home({ country }: LocationProps) {
               background="#000"
             />
           </div>
+          <ProductsSwiper header="" products={women_swiper} bg="" />
+          <ProductsSwiper
+            header="For Games"
+            products={gamingSwiper}
+            bg="#2f82ff"
+          />
+          <ProductsSwiper
+            header="House Improvments"
+            products={homeImprovSwiper}
+            bg="#5a31f4"
+          />
         </div>
       </div>
       <Footer country={country} />
