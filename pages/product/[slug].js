@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function product({ product, related }) {
   const [activeImg, setActiveImg] = useState("");
   const country = {
-    name: "Morocco",
+    name: "Georgia",
     flag: "",
   };
   if (!product) {

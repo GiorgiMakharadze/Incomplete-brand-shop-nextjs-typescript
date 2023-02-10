@@ -3,8 +3,10 @@ import IndexProps from "@/types/IndexProps";
 import Rating from "@mui/material/Rating";
 import { useRouter } from "next/router";
 import { TbMinus, TbPlus } from "react-icons/tb";
+import { BsHandbagFill, BsHeart } from "react-icons/bs";
 import styles from "./styles.module.scss";
 import Link from "next/link";
+import Share from "../share";
 
 const Infos = ({ product, setActiveImg }: IndexProps) => {
   const router = useRouter();
@@ -111,6 +113,22 @@ const Infos = ({ product, setActiveImg }: IndexProps) => {
             <TbPlus />
           </button>
         </div>
+        <div className={styles.infos__actions}>
+          <button
+            disabled={product.quantity < 1}
+            style={{
+              cursor: `${product.quantity < 1 ? "not-allowed" : ""}`,
+            }}
+          >
+            <BsHandbagFill />
+            <b>ADD TO CART</b>
+          </button>
+          <button>
+            <BsHeart />
+            WISHLIST
+          </button>
+        </div>
+        <Share />
       </div>
     </div>
   );
