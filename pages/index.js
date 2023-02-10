@@ -52,7 +52,7 @@ export default function Home({ country, products }) {
             products={gamingSwiper}
             bg="#2f82ff"
           />
-          <div className={styles.product}>
+          <div className={styles.products}>
             {products.map((product) => (
               <ProductCard product={product} key={product._id} />
             ))}

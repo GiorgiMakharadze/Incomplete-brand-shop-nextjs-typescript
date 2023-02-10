@@ -34,7 +34,8 @@
     "pages/api/auth/[...nextauth].ss",
     "pages/api/auth/[...nextauth].ts",
     "models/Products.ts",
-    "pages/index.tsx"
+    "pages/index.tsx",
+    "components/productCard/ProductSwiper.tsx"
   ],
   "exclude": ["node_modules"]
 }
