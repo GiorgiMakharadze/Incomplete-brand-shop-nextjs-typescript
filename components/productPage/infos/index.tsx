@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import IndexProps from "@/types/IndexProps";
-import Rating from "@mui/material/Rating";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import Rating from "@mui/material/Rating";
+import IndexProps from "@/types/IndexProps";
+import Share from "../share";
+import Accordion from "../Accordion";
 import { TbMinus, TbPlus } from "react-icons/tb";
 import { BsHandbagFill, BsHeart } from "react-icons/bs";
 import styles from "./styles.module.scss";
-import Link from "next/link";
-import Share from "../share";
 
 const Infos = ({ product, setActiveImg }: IndexProps) => {
   const router = useRouter();
@@ -129,6 +130,7 @@ const Infos = ({ product, setActiveImg }: IndexProps) => {
           </button>
         </div>
         <Share />
+        <Accordion details={[product.description, ...product.details]} />
       </div>
     </div>
   );
