@@ -12,6 +12,13 @@ export default interface IndexProps {
     slug: string;
     category: Types.ObjectId;
     subCategories: Types.ObjectId[];
+    sku: string;
+    priceRange: number;
+    priceBefore: number;
+    price: number;
+    discount: number;
+    quantity: number;
+    sizes: number | any;
     details: {
       name: string;
       value: string;

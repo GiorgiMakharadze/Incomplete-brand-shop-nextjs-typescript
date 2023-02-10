@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ReactImageMagnify from "react-image-magnify";
-
 import styles from "./styles.module.scss";
 
 export default function MainSwiper({ images, activeImg }) {

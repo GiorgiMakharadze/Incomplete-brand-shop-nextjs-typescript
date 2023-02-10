@@ -36,7 +36,7 @@
     "models/Products.js",
     "pages/index.tsx",
     "components/productCard/ProductSwiper.tsx",
-    "components/productPage/mainSwiper/index.js",
+    "components/productPage/mainSwiper/index.ts",
     "utils/db.ts"
   ],
   "exclude": ["node_modules"]

@@ -6,6 +6,7 @@ import User from "@/models/User";
 import SubCategory from "@/models/SubCategory";
 import Header from "@/components/header";
 import MainSwiper from "../../components/productPage/mainSwiper/index";
+import Infos from "../../components/productPage/infos/index";
 import styles from "../../styles/product.module.scss";
 
 import { useState } from "react";
@@ -35,10 +36,8 @@ export default function product({ product, related }) {
           </div>
           <div className={styles.product__main}>
             <MainSwiper images={product.images} activeImg={activeImg} />
+            <Infos product={product} setActiveImg={setActiveImg} />
           </div>
-          {/*
-            <ProductsSwiper products={related} />
-            */}
         </div>
       </div>
     </>

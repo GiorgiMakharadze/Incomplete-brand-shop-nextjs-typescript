@@ -2,7 +2,6 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import IndexProps from "@/types/IndexProps";
 import styles from "../styles/Home.module.scss";
 import Main from "../components/home/main";
 import FlashDeals from "@/components/home/main/flashDealds";
