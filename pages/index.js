@@ -44,12 +44,6 @@ export default function home({ country, products }) {
             />
 
             <Category
-              header="Shoes"
-              products={women_shoes}
-              background="#3c811f"
-            />
-
-            <Category
               header="Accessories"
               products={women_accessories}
               background="#000"

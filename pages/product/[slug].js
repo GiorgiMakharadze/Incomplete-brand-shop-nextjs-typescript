@@ -1,34 +1,49 @@
+import Head from "next/head";
 import db from "@/utils/db";
 import Product from "@/models/Products";
-import styles from "../../styles/product.module.scss";
-import Head from "next/head";
+import Category from "@/models/Category";
+import User from "@/models/User";
+import SubCategory from "@/models/SubCategory";
 import Header from "@/components/header";
-import Footer from "../../components/footer";
+import MainSwiper from "../../components/productPage/mainSwiper/index";
+import styles from "../../styles/product.module.scss";
 
-const product = ({ product }) => {
+import { useState } from "react";
+
+export default function product({ product, related }) {
+  const [activeImg, setActiveImg] = useState("");
+  const country = {
+    name: "Morocco",
+    flag: "",
+  };
   if (!product) {
     return <div>Product not found</div>;
   }
-  console.log(product);
   return (
-    <div>
+    <>
       <Head>
         <title>{product.name}</title>
       </Head>
-      <Header country="" />
-      <div className={styles.product__container}>
-        <div className={styles.path}>
-          Home / {product.category.toString()}
-          {product.subCategories.map((sub) => (
-            <span>/{sub.name}</span>
-          ))}
+      <Header country={country} />
+      <div className={styles.product}>
+        <div className={styles.product__container}>
+          <div className={styles.path}>
+            Home / {product.category.name}
+            {product.subCategories.map((sub) => (
+              <span>/{sub.name}</span>
+            ))}
+          </div>
+          <div className={styles.product__main}>
+            <MainSwiper images={product.images} activeImg={activeImg} />
+          </div>
+          {/*
+            <ProductsSwiper products={related} />
+            */}
         </div>
       </div>
-    </div>
+    </>
   );
-};
-
-export default product;
+}
 
 export async function getServerSideProps(context) {
   const { query } = context;
@@ -36,39 +51,30 @@ export async function getServerSideProps(context) {
   const style = query.style;
   const size = query.size || 0;
   db.connectDb();
-
-  let product = await Product.findOne({ slug }).lean();
-  if (!product) {
-    console.error(`Product with slug "${slug}" not found.`);
-    return {
-      props: {},
-    };
-  }
+  //------------
+  let product = await Product.findOne({ slug })
+    .populate({ path: "category", model: Category })
+    .populate({ path: "subCategories", model: SubCategory })
+    .populate({ path: "reviews.reviewBy", model: User })
+    .lean();
   let subProduct = product.subProducts[style];
-  if (!subProduct) {
-    console.error(`Subproduct with style "${style}" not found.`);
-    return {
-      props: {},
-    };
-  }
   let prices = subProduct.sizes
     .map((s) => {
       return s.price;
     })
-    .sort((a, b) => a - b);
-
-  console.log(product);
-
+    .sort((a, b) => {
+      return a - b;
+    });
   let newProduct = {
     ...product,
-    images: subProduct.image,
+    style,
+    images: subProduct.images,
     sizes: subProduct.sizes,
     discount: subProduct.discount,
     sku: subProduct.sku,
     colors: product.subProducts.map((p) => {
       return p.color;
     }),
-
     priceRange: subProduct.discount
       ? `From ${(prices[0] - prices[0] / subProduct.discount).toFixed(2)} to ${(
           prices[prices.length - 1] -
@@ -84,12 +90,57 @@ export async function getServerSideProps(context) {
         : subProduct.sizes[size].price,
     priceBefore: subProduct.sizes[size].price,
     quantity: subProduct.sizes[size].qty,
+    ratings: [
+      {
+        percentage: calculatePercentage("5"),
+      },
+      {
+        percentage: calculatePercentage("4"),
+      },
+      {
+        percentage: calculatePercentage("3"),
+      },
+      {
+        percentage: calculatePercentage("2"),
+      },
+      {
+        percentage: calculatePercentage("1"),
+      },
+    ],
+    reviews: product.reviews.reverse(),
+    allSizes: product.subProducts
+      .map((p) => {
+        return p.sizes;
+      })
+      .flat()
+      .sort((a, b) => {
+        return a.size - b.size;
+      })
+      .filter(
+        (element, index, array) =>
+          array.findIndex((el2) => el2.size === element.size) === index
+      ),
   };
-  console.log("new product", newProduct);
+  const related = await Product.find({ category: product.category._id }).lean();
+  //------------
+  function calculatePercentage(num) {
+    return (
+      (product.reviews.reduce((a, review) => {
+        return (
+          a +
+          (review.rating == Number(num) || review.rating == Number(num) + 0.5)
+        );
+      }, 0) *
+        100) /
+      product.reviews.length
+    ).toFixed(1);
+  }
   db.disconnectDb();
+  console.log("related", related);
   return {
     props: {
-      product: JSON.parse(JSON.stringify(product)),
+      product: JSON.parse(JSON.stringify(newProduct)),
+      related: JSON.parse(JSON.stringify(related)),
     },
   };
 }

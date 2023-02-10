@@ -19,6 +19,7 @@ import {
   getSession,
   signIn,
 } from "next-auth/react";
+
 const initialvalues = {
   login_email: "",
   login_password: "",
@@ -30,7 +31,7 @@ const initialvalues = {
   error: "",
   login_error: "",
 };
-export default function signin({ providers }: IProviders) {
+export default function signin({ providers, callbackUrl, csrfToken }) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(initialvalues);
   const {
@@ -44,7 +45,7 @@ export default function signin({ providers }: IProviders) {
     error,
     login_error,
   } = user;
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
@@ -95,7 +96,7 @@ export default function signin({ providers }: IProviders) {
         const res = await signIn("credentials", options);
         Router.push("/");
       }, 2000);
-    } catch (error: unknown | any) {
+    } catch (error) {
       setLoading(false);
       setUser({ ...user, success: "", error: error.response.data.message });
     }
@@ -114,16 +115,16 @@ export default function signin({ providers }: IProviders) {
       setLoading(false);
       setUser({ ...user, login_error: res?.error });
     } else {
-      return Router.push("/");
+      return Router.push(callbackUrl || "/");
     }
   };
   const country = {
-    name: "Georgia",
-    flag: "https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png",
+    name: "Morocco",
+    flag: "",
   };
   return (
     <>
-      {loading && <Dotloader loading={loading} />}
+      {loading && <DotLoaderSpinner loading={loading} />}
       <Header country={country} />
       <div className={styles.login}>
         <div className={styles.login__container}>
@@ -153,7 +154,11 @@ export default function signin({ providers }: IProviders) {
             >
               {(form) => (
                 <Form method="post" action="/api/auth/signin/email">
-                  <input type="hidden" name="csrfToken" />
+                  <input
+                    type="hidden"
+                    name="csrfToken"
+                    defaultValue={csrfToken}
+                  />
                   <LoginInput
                     type="text"
                     name="login_email"
@@ -168,7 +173,7 @@ export default function signin({ providers }: IProviders) {
                     placeholder="Password"
                     onChange={handleChange}
                   />
-                  <CircledIconBtn type="submit" text="Sign in" icon="" />
+                  <CircledIconBtn type="submit" text="Sign in" />
                   {login_error && (
                     <span className={styles.error}>{login_error}</span>
                   )}
@@ -250,7 +255,7 @@ export default function signin({ providers }: IProviders) {
                     placeholder="Re-Type Password"
                     onChange={handleChange}
                   />
-                  <CircledIconBtn type="submit" text="Sign up" icon="" />
+                  <CircledIconBtn type="submit" text="Sign up" />
                 </Form>
               )}
             </Formik>
@@ -261,24 +266,31 @@ export default function signin({ providers }: IProviders) {
           </div>
         </div>
       </div>
-      <Footer country="Georgia" />
+      <Footer country="Morocco" />
     </>
   );
 }
-export async function getServerSideProps(context: NextPageContext) {
-  const providers = await getProviders();
 
-  if (providers) {
+export async function getServerSideProps(context) {
+  const { req, query } = context;
+
+  const session = await getSession({ req });
+  const { callbackUrl } = query;
+
+  if (session) {
     return {
-      props: {
-        providers: Object.values(providers),
+      redirect: {
+        destination: callbackUrl,
       },
     };
   }
-
+  const csrfToken = await getCsrfToken(context);
+  const providers = Object.values(await getProviders());
   return {
     props: {
-      providers: [],
+      providers,
+      csrfToken,
+      callbackUrl,
     },
   };
 }

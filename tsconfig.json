@@ -29,13 +29,15 @@
     "models/User.ts",
     "types/tokens.jwtts",
     "utils/sendEmails.ts",
-    "pages/signin.tsx",
+    "pages/signin.js",
     "pages/api/auth/signup.ts",
     "pages/api/auth/[...nextauth].ss",
     "pages/api/auth/[...nextauth].ts",
     "models/Products.js",
     "pages/index.tsx",
-    "components/productCard/ProductSwiper.tsx"
+    "components/productCard/ProductSwiper.tsx",
+    "components/productPage/mainSwiper/index.js",
+    "utils/db.ts"
   ],
   "exclude": ["node_modules"]
 }
