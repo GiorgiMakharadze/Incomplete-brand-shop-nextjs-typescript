@@ -5,6 +5,7 @@ export default interface IndexProps {
     name: string;
     flag: string;
   };
+  setActiveImg: any;
   product: {
     name: string;
     description: string;
@@ -19,6 +20,8 @@ export default interface IndexProps {
     discount: number;
     quantity: number;
     sizes: number | any;
+    colors: number | any;
+
     details: {
       name: string;
       value: string;
