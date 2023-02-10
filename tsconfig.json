@@ -33,7 +33,8 @@
     "pages/api/auth/signup.ts",
     "pages/api/auth/[...nextauth].ss",
     "pages/api/auth/[...nextauth].ts",
-    "models/Products.js"
+    "models/Products.ts",
+    "pages/index.tsx"
   ],
   "exclude": ["node_modules"]
 }

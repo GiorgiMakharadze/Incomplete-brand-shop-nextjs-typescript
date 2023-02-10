@@ -1,7 +1,7 @@
 import Ad from "./Ad";
 import Top from "./Top";
 import Main from "./Main";
-import LocationProps from "@/types/location";
+import LocationProps from "@/types/IndexProps";
 import styles from "./styles.module.scss";
 import session from "redux-persist/lib/storage/session";
 

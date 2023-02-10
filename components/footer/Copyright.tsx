@@ -1,6 +1,6 @@
 import Link from "next/dist/client/link";
 import { IoLocationSharp } from "react-icons/io5";
-import LocationProps from "@/types/location";
+import LocationProps from "@/types/IndexProps";
 import styles from "./styles.module.scss";
 
 const Copyright = ({ country }: LocationProps) => {

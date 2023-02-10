@@ -3,7 +3,7 @@ import Links from "./links";
 import NewsLetter from "./NewsLetter";
 import Payments from "./Payments";
 import Socails from "./Socails";
-import LocationProps from "@/types/location";
+import LocationProps from "@/types/IndexProps";
 import styles from "./styles.module.scss";
 
 const Footer = ({ country }: LocationProps) => {

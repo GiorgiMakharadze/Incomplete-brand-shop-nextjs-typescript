@@ -1,8 +1,9 @@
-import { Schema, model, models, Types } from "mongoose";
+import mongoose, { Schema, model, models, Types } from "mongoose";
+import IndexProps from "@/types/IndexProps";
 
 const { ObjectId } = Types || Schema;
 
-const reviewSchema = new Schema({
+const ReviewSchema = new Schema({
   reviewBy: {
     type: ObjectId,
     ref: "User",
@@ -31,7 +32,7 @@ const reviewSchema = new Schema({
   likes: [],
 });
 
-const productSchema = new Schema(
+const ProductSchema = new Schema(
   {
     name: {
       type: String,
@@ -73,7 +74,7 @@ const productSchema = new Schema(
         answer: String,
       },
     ],
-    reviews: [reviewSchema],
+    reviews: [ReviewSchema],
     refundPolicy: {
       type: String,
       default: "30 days",
@@ -129,6 +130,11 @@ const productSchema = new Schema(
   }
 );
 
-const Product = models.Products || model("Product", productSchema);
+let Product;
+if (models.Product) {
+  Product = models.Product;
+} else {
+  Product = model("Product", ProductSchema);
+}
 
 export default Product;

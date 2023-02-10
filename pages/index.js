@@ -2,24 +2,26 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import LocationProps from "@/types/location";
+import IndexProps from "@/types/IndexProps";
 import styles from "../styles/Home.module.scss";
 import Main from "../components/home/main";
 import FlashDeals from "@/components/home/main/flashDealds";
 import Category from "@/components/home/category";
+import db from "@/utils/db";
+import Product from "@/models/Products";
+
 import {
   gamingSwiper,
-  homeImprovSwiper,
   women_accessories,
   women_dresses,
   women_shoes,
   women_swiper,
 } from "@/data/home";
 import ProductsSwiper from "@/components/productsSwiper";
+import ProductCard from "@/components/productCard";
 
-export default function Home({ country }: LocationProps) {
+export default function Home({ country, products }) {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <div>
       <Header country={country} />
@@ -50,11 +52,11 @@ export default function Home({ country }: LocationProps) {
             products={gamingSwiper}
             bg="#2f82ff"
           />
-          <ProductsSwiper
-            header="House Improvments"
-            products={homeImprovSwiper}
-            bg="#5a31f4"
-          />
+          <div className={styles.product}>
+            {products.map((product) => (
+              <ProductCard product={product} key={product._id} />
+            ))}
+          </div>
         </div>
       </div>
       <Footer country={country} />
@@ -63,6 +65,9 @@ export default function Home({ country }: LocationProps) {
 }
 
 export async function getServerSideProps() {
+  db.connectDb();
+  let products = await Product.find().sort({ createdAt: -1 }).lean();
+  console.log(products);
   let data = await axios
     // https://api.ipregistry.co/?key=plih250x8rnvtpmw
     .get("")
@@ -72,8 +77,10 @@ export async function getServerSideProps() {
     .catch((err) => {
       console.log(err);
     });
+
   return {
     props: {
+      products: JSON.parse(JSON.stringify(products)),
       //country: { name: data.name, flag: data.flag.emojitwo },
       country: {
         name: "Georgia",
