@@ -33,7 +33,7 @@
     "pages/api/auth/signup.ts",
     "pages/api/auth/[...nextauth].ss",
     "pages/api/auth/[...nextauth].ts",
-    "models/Products.ts",
+    "models/Products.js",
     "pages/index.tsx",
     "components/productCard/ProductSwiper.tsx"
   ],

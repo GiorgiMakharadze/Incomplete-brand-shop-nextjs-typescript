@@ -2,14 +2,28 @@ import db from "@/utils/db";
 import Product from "@/models/Products";
 import styles from "../../styles/product.module.scss";
 import Head from "next/head";
+import Header from "@/components/header";
+import Footer from "../../components/footer";
 
 const product = ({ product }) => {
+  if (!product) {
+    return <div>Product not found</div>;
+  }
   console.log(product);
   return (
     <div>
       <Head>
         <title>{product.name}</title>
       </Head>
+      <Header country="" />
+      <div className={styles.product__container}>
+        <div className={styles.path}>
+          Home / {product.category.toString()}
+          {product.subCategories.map((sub) => (
+            <span>/{sub.name}</span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
@@ -55,15 +69,17 @@ export async function getServerSideProps(context) {
       return p.color;
     }),
 
-    priceRange:
-      prices.length > 1
-        ? `From ${prices[0]} to ${prices[prices.length - 1]}`
-        : "",
+    priceRange: subProduct.discount
+      ? `From ${(prices[0] - prices[0] / subProduct.discount).toFixed(2)} to ${(
+          prices[prices.length - 1] -
+          prices[prices.length - 1] / subProduct.discount
+        ).toFixed(2)}$`
+      : `From ${prices[0]} to ${prices[prices.length - 1]}$`,
     price:
       subProduct.discount > 0
         ? (
-            subProduct.size[size].price -
-            subProduct.sizes[size].price / subProduct
+            subProduct.sizes[size].price -
+            subProduct.sizes[size].price / subProduct.discount
           ).toFixed(2)
         : subProduct.sizes[size].price,
     priceBefore: subProduct.sizes[size].price,

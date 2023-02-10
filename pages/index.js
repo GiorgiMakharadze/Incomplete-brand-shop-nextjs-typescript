@@ -19,11 +19,12 @@ import {
 } from "@/data/home";
 import ProductsSwiper from "@/components/productsSwiper";
 import ProductCard from "@/components/productCard";
-
-export default function Home({ country, products }) {
+export default function home({ country, products }) {
+  console.log("products", products);
   const { data: session } = useSession();
+
   return (
-    <div>
+    <>
       <Header country={country} />
       <div className={styles.home}>
         <div className={styles.container}>
@@ -35,19 +36,26 @@ export default function Home({ country, products }) {
               products={women_dresses}
               background="#5a31f4"
             />
+
             <Category
               header="Shoes"
               products={women_shoes}
               background="#3c811f"
             />
+
+            <Category
+              header="Shoes"
+              products={women_shoes}
+              background="#3c811f"
+            />
+
             <Category
               header="Accessories"
               products={women_accessories}
               background="#000"
             />
           </div>
-          <ProductsSwiper header="" products={women_swiper} bg="" />
-
+          <ProductsSwiper products={women_swiper} />
           <div className={styles.products}>
             {products.map((product) => (
               <ProductCard product={product} key={product._id} />
@@ -56,14 +64,13 @@ export default function Home({ country, products }) {
         </div>
       </div>
       <Footer country={country} />
-    </div>
+    </>
   );
 }
 
 export async function getServerSideProps() {
   db.connectDb();
   let products = await Product.find().sort({ createdAt: -1 }).lean();
-  console.log(products);
   let data = await axios
     // https://api.ipregistry.co/?key=plih250x8rnvtpmw
     .get("")
