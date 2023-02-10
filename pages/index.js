@@ -47,11 +47,7 @@ export default function Home({ country, products }) {
             />
           </div>
           <ProductsSwiper header="" products={women_swiper} bg="" />
-          <ProductsSwiper
-            header="For Games"
-            products={gamingSwiper}
-            bg="#2f82ff"
-          />
+
           <div className={styles.products}>
             {products.map((product) => (
               <ProductCard product={product} key={product._id} />

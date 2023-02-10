@@ -1,14 +1,11 @@
 import styles from "./styles.module.scss";
 import { useRef, useState } from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// import required modules
 import { Autoplay } from "swiper";
 import { useEffect } from "react";
 export default function ProductSwiper({ images }) {
