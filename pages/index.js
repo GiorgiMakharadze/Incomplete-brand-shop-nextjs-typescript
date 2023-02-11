@@ -10,7 +10,6 @@ import db from "@/utils/db";
 import Product from "@/models/Products";
 
 import {
-  gamingSwiper,
   women_accessories,
   women_dresses,
   women_shoes,
