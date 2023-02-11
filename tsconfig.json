@@ -37,7 +37,11 @@
     "pages/index.tsx",
     "components/productCard/ProductSwiper.tsx",
     "components/productPage/mainSwiper/index.ts",
-    "utils/db.ts"
+    "utils/db.ts",
+    "components/productPage/reviews/index.tsx",
+    "components/productPage/reviews/index.tsx",
+    "components/productPage/reviews/index.tsx",
+    "components/productPage/reviews/index.js"
   ],
   "exclude": ["node_modules"]
 }

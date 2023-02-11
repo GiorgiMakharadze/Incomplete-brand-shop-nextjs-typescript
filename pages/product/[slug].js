@@ -7,15 +7,16 @@ import SubCategory from "@/models/SubCategory";
 import Header from "@/components/header";
 import MainSwiper from "../../components/productPage/mainSwiper/index";
 import Infos from "../../components/productPage/infos/index";
+import Reviews from "../../components/productPage/reviews/index.js";
 import styles from "../../styles/product.module.scss";
 
 import { useState } from "react";
 
-export default function product({ product, related }) {
+export default function product({ product }) {
   const [activeImg, setActiveImg] = useState("");
   const country = {
     name: "Georgia",
-    flag: "",
+    flag: "https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png",
   };
   if (!product) {
     return <div>Product not found</div>;
@@ -38,6 +39,7 @@ export default function product({ product, related }) {
             <MainSwiper images={product.images} activeImg={activeImg} />
             <Infos product={product} setActiveImg={setActiveImg} />
           </div>
+          <Reviews product={product} />
         </div>
       </div>
     </>
@@ -135,7 +137,6 @@ export async function getServerSideProps(context) {
     ).toFixed(1);
   }
   db.disconnectDb();
-  console.log("related", related);
   return {
     props: {
       product: JSON.parse(JSON.stringify(newProduct)),
