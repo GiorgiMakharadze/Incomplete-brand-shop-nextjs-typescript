@@ -1,4 +1,3 @@
-import AccordianProps from "@/types/accordian";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { BiRightArrow } from "react-icons/bi";
@@ -9,7 +8,7 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails, {
   AccordionDetailsProps,
 } from "@mui/material/AccordionDetails";
-import styles from "../productPage/infos/styles.module.scss";
+import styles from "./styles.module.scss";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -48,7 +47,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function Accordian({ details }: AccordianProps) {
+export default function Accordian({ details }: any) {
   const [expanded, setExpanded] = React.useState("");
   const handleChange = (panel: any) => (event: any, newExpanded: any) => {
     setExpanded(newExpanded ? panel : false);
@@ -73,7 +72,7 @@ export default function Accordian({ details }: AccordianProps) {
           </div>
         </AccordionDetails>
         <AccordionDetails className="scrollbar">
-          {details.slice(1, details.length).map((info) => (
+          {details.slice(1, details.length).map(({ info }: string | any) => (
             <div className={styles.infos__accordian_grid}>
               <span>{info.name}:</span>
               <span>{info.value}</span>

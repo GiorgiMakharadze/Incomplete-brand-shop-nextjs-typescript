@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import Rating from "@mui/material/Rating";
 import IndexProps from "@/types/IndexProps";
 import Share from "../share";
-import Accordion from "../Accordion";
+import Accordion from "./Accordion";
 import { TbMinus, TbPlus } from "react-icons/tb";
 import { BsHandbagFill, BsHeart } from "react-icons/bs";
 import styles from "./styles.module.scss";
+import SimillarSwiper from "./SimillarSwiper";
 
 const Infos = ({ product, setActiveImg }: IndexProps) => {
   const router = useRouter();
@@ -131,6 +132,7 @@ const Infos = ({ product, setActiveImg }: IndexProps) => {
         </div>
         <Share />
         <Accordion details={[product.description, ...product.details]} />
+        <SimillarSwiper />
       </div>
     </div>
   );
