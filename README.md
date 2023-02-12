@@ -12,4 +12,4 @@ axios, bcrypt, formik, googleapis, jsonwebtoken, react-icons, react-image-magnif
 
 ## How To Install and Run
 
-Go to Netlify Link or Download files and in terminal write npm install --force and than npm run dev.
+Download files and in terminal write npm install --force and than npm run dev.
