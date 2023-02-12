@@ -1,4 +1,11 @@
 import SessionProps from "./session";
 export interface UserMenuProps {
-  session: SessionProps | null | undefined;
+  session:
+    | {
+        user: {
+          name: string;
+          image: string;
+        };
+      }
+    | undefined;
 }

@@ -1,6 +1,5 @@
 import axios from "axios";
 import Link from "next/link";
-import { NextPageContext } from "next";
 import Router from "next/router";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -19,6 +18,7 @@ import {
   getSession,
   signIn,
 } from "next-auth/react";
+import { useRouter } from "next/dist/client/router";
 
 const initialvalues = {
   login_email: "",
@@ -45,6 +45,9 @@ export default function signin({ providers, callbackUrl, csrfToken }) {
     error,
     login_error,
   } = user;
+
+  const router = useRouter();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -124,13 +127,18 @@ export default function signin({ providers, callbackUrl, csrfToken }) {
   };
   return (
     <>
-      {loading && <DotLoaderSpinner loading={loading} />}
+      {loading && <Dotloader loading={loading} />}
       <Header country={country} />
       <div className={styles.login}>
         <div className={styles.login__container}>
           <div className={styles.login__header}>
             <div className={styles.back__svg}>
-              <BiLeftArrowAlt />
+              <button
+                onClick={() => router.back()}
+                style={{ background: "none" }}
+              >
+                <BiLeftArrowAlt />
+              </button>
             </div>
             <span>
               We'd be happy to join us ! <Link href="/">Go Store</Link>

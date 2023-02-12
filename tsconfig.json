@@ -41,7 +41,8 @@
     "components/productPage/reviews/index.tsx",
     "components/productPage/reviews/index.tsx",
     "components/productPage/reviews/index.tsx",
-    "components/productPage/reviews/index.js"
+    "components/productPage/reviews/index.js",
+    "components/header/Top.js"
   ],
   "exclude": ["node_modules"]
 }

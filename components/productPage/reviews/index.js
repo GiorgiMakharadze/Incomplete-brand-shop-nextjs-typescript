@@ -1,4 +1,4 @@
-import IndexProps from "@/types/IndexProps";
+import { useSession, signIn } from "next-auth/react";
 import { Rating } from "@mui/material";
 import styles from "./styles.module.scss";
 
@@ -14,7 +14,7 @@ const Reviews = ({ product }) => {
               <Rating
                 name="half-rating-read"
                 defaultValue={product.rating}
-                precision={0.5}
+                precision={1}
                 readOnly
                 style={{ color: "#FACF19" }}
               />
