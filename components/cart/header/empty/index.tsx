@@ -7,7 +7,7 @@ const Empty = () => {
       <img src="../../../images/empty.png" alt="" />
       <h1>Cart is empty</h1>
 
-      <Link href="/browse" legacyBehavior>
+      <Link href="/" legacyBehavior>
         <a>
           <button className={`${styles.empty__btn} ${styles.empty__btn_v2}`}>
             SHOP NOW

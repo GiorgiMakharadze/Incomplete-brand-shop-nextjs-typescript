@@ -11,7 +11,7 @@ const Header = () => {
           </Link>
         </div>
         <div className={styles.header__right}>
-          <Link href="/browse">
+          <Link href="">
             <span>
               Continue shopping
               <MdPlayArrow />

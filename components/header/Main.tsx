@@ -20,7 +20,7 @@ const Main = () => {
             <RiSearch2Line />
           </div>
         </div>
-        <Link legacyBehavior href="/">
+        <Link legacyBehavior href="/cart">
           <a className={styles.cart}>
             <FaOpencart />
             <span>0</span>

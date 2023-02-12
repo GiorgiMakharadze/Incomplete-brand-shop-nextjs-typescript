@@ -31,8 +31,6 @@ const ProductCard = ({ product }: IndexProps) => {
     );
   }, [active]);
 
-  console.log(images, prices, styles);
-
   return (
     <div className={styles.product}>
       <div className={styles.product__container}>

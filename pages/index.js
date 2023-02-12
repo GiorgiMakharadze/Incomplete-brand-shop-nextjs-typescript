@@ -18,7 +18,6 @@ import {
 import ProductsSwiper from "@/components/productsSwiper";
 import ProductCard from "@/components/productCard";
 export default function home({ country, products }) {
-  console.log("products", products);
   const { data: session } = useSession();
 
   return (
@@ -64,8 +63,7 @@ export async function getServerSideProps() {
   db.connectDb();
   let products = await Product.find().sort({ createdAt: -1 }).lean();
   let data = await axios
-    // https://api.ipregistry.co/?key=plih250x8rnvtpmw
-    .get("")
+    .get("https://api.ipregistry.co/?key=plih250x8rnvtpmw")
     .then((res) => {
       return res.data.location.country;
     })
@@ -76,11 +74,7 @@ export async function getServerSideProps() {
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
-      //country: { name: data.name, flag: data.flag.emojitwo },
-      country: {
-        name: "Georgia",
-        flag: "https://cdn.pixabay.com/photo/2013/07/13/14/15/georgia-162300_960_720.png",
-      },
+      country: { name: data.name, flag: data.flag.emojitwo },
     },
   };
 }
