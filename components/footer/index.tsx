@@ -14,7 +14,6 @@ const Footer = ({ country }: LocationProps) => {
         <Socails />
         <NewsLetter />
         <Payments />
-        <Copyright country={country} />
       </div>
     </footer>
   );
